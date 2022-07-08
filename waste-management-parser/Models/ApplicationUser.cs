@@ -6,6 +6,6 @@ namespace waste_management_parser.Models
     public class ApplicationUser : IdentityUser
     {
         [Display(Name = "Full name")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
     }
 }
