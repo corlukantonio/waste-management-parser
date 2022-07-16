@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using waste_management_parser.Data.Base;
 
 namespace waste_management_parser.Models
@@ -10,10 +11,12 @@ namespace waste_management_parser.Models
 
         [Display(Name = "GUID")]
         [Required(ErrorMessage = "GUID is required.")]
+        [MaxLength(36), MinLength(36)]
         public byte[]? Guid { get; set; }
 
         [Display(Name = "MAC")]
         [Required(ErrorMessage = "MAC is required.")]
+        [MaxLength(6), MinLength(6)]
         public byte[]? Mac { get; set; }
 
         [Display(Name = "Name")]
@@ -30,6 +33,7 @@ namespace waste_management_parser.Models
         public double Longitude { get; set; }
 
         [Required(ErrorMessage = "Creation date is required.")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
@@ -37,6 +41,20 @@ namespace waste_management_parser.Models
         // Relationships.
 
         public List<WmRecord_TriggerWasteBinEmptying_WmObject>? WmRecords_TriggerWasteBinEmptying_WmObjects { get; set; }
+
+        // ApplicationUser.
+
+        public string? OwnerId { get; set; }
+
+        [ForeignKey(nameof(OwnerId))]
+        public ApplicationUser? Owner { get; set; }
+
+        // Group.
+
+        public int WmGroupId { get; set; }
+
+        [ForeignKey(nameof(WmGroupId))]
+        public WmGroup? WmGroup { get; set; }
 
         // Record.
 

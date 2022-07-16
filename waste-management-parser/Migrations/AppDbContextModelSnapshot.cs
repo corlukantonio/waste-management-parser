@@ -223,6 +223,64 @@ namespace waste_management_parser.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser_WmOrganization", b =>
+                {
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("WmOrganizationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApplicationUserId", "WmOrganizationId");
+
+                    b.HasIndex("WmOrganizationId");
+
+                    b.ToTable("ApplicationUsers_WmOrganizations");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<byte[]>("Guid")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("binary(36)")
+                        .IsFixedLength();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WmOrganizationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WmOrganizationId");
+
+                    b.ToTable("WmGroups");
+                });
+
             modelBuilder.Entity("waste_management_parser.Models.WmObject", b =>
                 {
                     b.Property<int>("Id")
@@ -233,11 +291,15 @@ namespace waste_management_parser.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<byte[]>("Guid")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasMaxLength(36)
+                        .HasColumnType("binary(36)")
+                        .IsFixedLength();
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -247,7 +309,52 @@ namespace waste_management_parser.Migrations
 
                     b.Property<byte[]>("Mac")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasMaxLength(6)
+                        .HasColumnType("binary(6)")
+                        .IsFixedLength();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WmGroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("WmGroupId");
+
+                    b.ToTable("WmObjects");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<byte[]>("Guid")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("binary(36)")
+                        .IsFixedLength();
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -259,7 +366,7 @@ namespace waste_management_parser.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WmObjects");
+                    b.ToTable("WmOrganizations");
                 });
 
             modelBuilder.Entity("waste_management_parser.Models.WmRecord", b =>
@@ -272,7 +379,9 @@ namespace waste_management_parser.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<byte[]>("Data")
                         .IsRequired()
@@ -298,7 +407,9 @@ namespace waste_management_parser.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
@@ -371,6 +482,53 @@ namespace waste_management_parser.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser_WmOrganization", b =>
+                {
+                    b.HasOne("waste_management_parser.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ApplicationUsers_WmOrganizations")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("waste_management_parser.Models.WmOrganization", "WmOrganization")
+                        .WithMany("ApplicationUsers_WmOrganizations")
+                        .HasForeignKey("WmOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("WmOrganization");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmGroup", b =>
+                {
+                    b.HasOne("waste_management_parser.Models.WmOrganization", "WmOrganization")
+                        .WithMany("WmGroups")
+                        .HasForeignKey("WmOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WmOrganization");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmObject", b =>
+                {
+                    b.HasOne("waste_management_parser.Models.ApplicationUser", "Owner")
+                        .WithMany("WmObjects")
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("waste_management_parser.Models.WmGroup", "WmGroup")
+                        .WithMany("WmObjects")
+                        .HasForeignKey("WmGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("WmGroup");
+                });
+
             modelBuilder.Entity("waste_management_parser.Models.WmRecord", b =>
                 {
                     b.HasOne("waste_management_parser.Models.WmObject", "WmObject")
@@ -401,11 +559,30 @@ namespace waste_management_parser.Migrations
                     b.Navigation("WmRecord_TriggerWasteBinEmptying");
                 });
 
+            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("ApplicationUsers_WmOrganizations");
+
+                    b.Navigation("WmObjects");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmGroup", b =>
+                {
+                    b.Navigation("WmObjects");
+                });
+
             modelBuilder.Entity("waste_management_parser.Models.WmObject", b =>
                 {
                     b.Navigation("WmRecords");
 
                     b.Navigation("WmRecords_TriggerWasteBinEmptying_WmObjects");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
+                {
+                    b.Navigation("ApplicationUsers_WmOrganizations");
+
+                    b.Navigation("WmGroups");
                 });
 
             modelBuilder.Entity("waste_management_parser.Models.WmRecord_TriggerWasteBinEmptying", b =>

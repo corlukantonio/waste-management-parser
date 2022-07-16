@@ -7,5 +7,13 @@ namespace waste_management_parser.Models
     {
         [Display(Name = "Full name")]
         public string? FullName { get; set; }
+
+        // Relationships.
+
+        public List<ApplicationUser_WmOrganization>? ApplicationUsers_WmOrganizations { get; set; }
+
+        // Object.
+
+        public List<WmObject>? WmObjects { get; set; }
     }
 }

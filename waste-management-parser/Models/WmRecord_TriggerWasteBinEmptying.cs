@@ -11,6 +11,7 @@ namespace waste_management_parser.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Creation date is required.")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? CreatedAt { get; set; }
 
         // Relationships.

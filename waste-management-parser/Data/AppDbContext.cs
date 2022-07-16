@@ -12,6 +12,34 @@ namespace waste_management_parser.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser_WmOrganization>().HasKey(uo => new
+            {
+                uo.ApplicationUserId,
+                uo.WmOrganizationId
+            });
+
+            builder.Entity<ApplicationUser_WmOrganization>().HasOne(u => u.ApplicationUser).WithMany(uo => uo.ApplicationUsers_WmOrganizations).HasForeignKey(u => u.ApplicationUserId);
+
+            builder.Entity<ApplicationUser_WmOrganization>().HasOne(o => o.WmOrganization).WithMany(uo => uo.ApplicationUsers_WmOrganizations).HasForeignKey(o => o.WmOrganizationId);
+
+            builder.Entity<WmGroup>().Property(b => b.Guid).IsFixedLength();
+
+            builder.Entity<WmGroup>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<WmObject>().Property(b => b.Guid).IsFixedLength();
+
+            builder.Entity<WmObject>().Property(b => b.Mac).IsFixedLength();
+
+            builder.Entity<WmObject>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<WmOrganization>().Property(b => b.Guid).IsFixedLength();
+
+            builder.Entity<WmOrganization>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<WmRecord>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<WmRecord_TriggerWasteBinEmptying>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
             builder.Entity<WmRecord_TriggerWasteBinEmptying_WmObject>().HasKey(ro => new
             {
                 ro.WmRecord_TriggerWasteBinEmptyingId,
@@ -25,7 +53,13 @@ namespace waste_management_parser.Data
             base.OnModelCreating(builder);
         }
 
+        public DbSet<ApplicationUser_WmOrganization> ApplicationUsers_WmOrganizations { get; set; }
+
+        public DbSet<WmGroup> WmGroups { get; set; }
+
         public DbSet<WmObject> WmObjects { get; set; }
+
+        public DbSet<WmOrganization> WmOrganizations { get; set; }
 
         public DbSet<WmRecord> WmRecords { get; set; }
 

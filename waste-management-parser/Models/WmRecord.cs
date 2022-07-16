@@ -13,6 +13,7 @@ namespace waste_management_parser.Models
         public byte[]? Data { get; set; }
 
         [Required(ErrorMessage = "Creation date is required.")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? CreatedAt { get; set; }
 
         // Relationships.
@@ -21,7 +22,7 @@ namespace waste_management_parser.Models
 
         public int WmObjectId { get; set; }
 
-        [ForeignKey("WmObjectId")]
+        [ForeignKey(nameof(WmObjectId))]
         public WmObject? WmObject { get; set; }
     }
 }
