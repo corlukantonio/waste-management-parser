@@ -32,8 +32,16 @@ namespace waste_management_parser.Models
         [Required(ErrorMessage = "Longitude is required.")]
         public double Longitude { get; set; }
 
-        [Required(ErrorMessage = "Creation date is required.")]
+        [Display(Name = "Is activated")]
+        [Required(ErrorMessage = "Is activated field is required.")]
+        public bool IsActivated { get; set; }
+
+        [Display(Name = "Activation code")]
+        [MaxLength(4), MinLength(4)]
+        public byte[]? ActivationCode { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required(ErrorMessage = "Creation date is required.")]
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
@@ -42,7 +50,7 @@ namespace waste_management_parser.Models
 
         public List<WmRecord_TriggerWasteBinEmptying_WmObject>? WmRecords_TriggerWasteBinEmptying_WmObjects { get; set; }
 
-        // ApplicationUser.
+        // User.
 
         public string? OwnerId { get; set; }
 

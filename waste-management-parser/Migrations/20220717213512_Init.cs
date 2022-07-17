@@ -50,23 +50,6 @@ namespace waste_management_parser.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WmObjects_Registered",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Mac = table.Column<byte[]>(type: "binary(6)", fixedLength: true, maxLength: 6, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ActivationCode = table.Column<byte[]>(type: "varbinary(4)", maxLength: 4, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WmObjects_Registered", x => x.Id);
-                    table.UniqueConstraint("UXC_WmObjects_Registered_Mac", x => x.Mac);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "WmOrganizations",
                 columns: table => new
                 {
@@ -262,6 +245,8 @@ namespace waste_management_parser.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Latitude = table.Column<double>(type: "float", nullable: false),
                     Longitude = table.Column<double>(type: "float", nullable: false),
+                    IsActivated = table.Column<bool>(type: "bit", nullable: false),
+                    ActivationCode = table.Column<byte[]>(type: "binary(4)", fixedLength: true, maxLength: 4, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -449,9 +434,6 @@ namespace waste_management_parser.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "WmObjects_Registered");
 
             migrationBuilder.DropTable(
                 name: "WmRecords");

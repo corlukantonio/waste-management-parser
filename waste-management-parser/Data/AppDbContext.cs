@@ -34,13 +34,8 @@ namespace waste_management_parser.Data
             builder.Entity<WmObject>().Property(b => b.Guid).IsFixedLength();
             builder.Entity<WmObject>().HasAlternateKey(x => x.Mac).HasName("UXC_WmObjects_Mac");
             builder.Entity<WmObject>().Property(b => b.Mac).IsFixedLength();
+            builder.Entity<WmObject>().Property(b => b.ActivationCode).IsFixedLength();
             builder.Entity<WmObject>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            // Objects - Registered.
-
-            builder.Entity<WmObject_Registered>().HasAlternateKey(x => x.Mac).HasName("UXC_WmObjects_Registered_Mac");
-            builder.Entity<WmObject_Registered>().Property(b => b.Mac).IsFixedLength();
-            builder.Entity<WmObject_Registered>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             // Organizations.
 
@@ -74,8 +69,6 @@ namespace waste_management_parser.Data
         public DbSet<WmGroup> WmGroups { get; set; }
 
         public DbSet<WmObject> WmObjects { get; set; }
-
-        public DbSet<WmObject_Registered> WmObjects_Registered { get; set; }
 
         public DbSet<WmOrganization> WmOrganizations { get; set; }
 

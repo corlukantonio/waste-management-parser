@@ -12,14 +12,14 @@ using waste_management_parser.Data;
 namespace waste_management_parser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220717124355_Init")]
+    [Migration("20220717213512_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -294,6 +294,11 @@ namespace waste_management_parser.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<byte[]>("ActivationCode")
+                        .HasMaxLength(4)
+                        .HasColumnType("binary(4)")
+                        .IsFixedLength();
+
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -305,6 +310,9 @@ namespace waste_management_parser.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("binary(36)")
                         .IsFixedLength();
+
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("bit");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -345,44 +353,6 @@ namespace waste_management_parser.Migrations
                     b.HasIndex("WmGroupId");
 
                     b.ToTable("WmObjects");
-                });
-
-            modelBuilder.Entity("waste_management_parser.Models.WmObject_Registered", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<byte[]>("ActivationCode")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("varbinary(4)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<byte[]>("Mac")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("binary(6)")
-                        .IsFixedLength();
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Mac")
-                        .HasName("UXC_WmObjects_Registered_Mac");
-
-                    b.ToTable("WmObjects_Registered");
                 });
 
             modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
