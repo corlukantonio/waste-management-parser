@@ -276,6 +276,9 @@ namespace waste_management_parser.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Guid")
+                        .HasName("UXC_WmGroups_Guid");
+
                     b.HasIndex("WmOrganizationId");
 
                     b.ToTable("WmGroups");
@@ -329,11 +332,55 @@ namespace waste_management_parser.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Guid")
+                        .HasName("UXC_WmObjects_Guid");
+
+                    b.HasAlternateKey("Mac")
+                        .HasName("UXC_WmObjects_Mac");
+
                     b.HasIndex("OwnerId");
 
                     b.HasIndex("WmGroupId");
 
                     b.ToTable("WmObjects");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmObject_Registered", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("ActivationCode")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("varbinary(4)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<byte[]>("Mac")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("binary(6)")
+                        .IsFixedLength();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Mac")
+                        .HasName("UXC_WmObjects_Registered_Mac");
+
+                    b.ToTable("WmObjects_Registered");
                 });
 
             modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
@@ -365,6 +412,9 @@ namespace waste_management_parser.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Guid")
+                        .HasName("UXC_WmOrganizations_Guid");
 
                     b.ToTable("WmOrganizations");
                 });
