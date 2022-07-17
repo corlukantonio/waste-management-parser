@@ -50,6 +50,23 @@ namespace waste_management_parser.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WmObjects_Registered",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mac = table.Column<byte[]>(type: "binary(6)", fixedLength: true, maxLength: 6, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ActivationCode = table.Column<byte[]>(type: "varbinary(4)", maxLength: 4, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WmObjects_Registered", x => x.Id);
+                    table.UniqueConstraint("UXC_WmObjects_Registered_Mac", x => x.Mac);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WmOrganizations",
                 columns: table => new
                 {
@@ -63,6 +80,7 @@ namespace waste_management_parser.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WmOrganizations", x => x.Id);
+                    table.UniqueConstraint("UXC_WmOrganizations_Guid", x => x.Guid);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,6 +242,7 @@ namespace waste_management_parser.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WmGroups", x => x.Id);
+                    table.UniqueConstraint("UXC_WmGroups_Guid", x => x.Guid);
                     table.ForeignKey(
                         name: "FK_WmGroups_WmOrganizations_WmOrganizationId",
                         column: x => x.WmOrganizationId,
@@ -251,6 +270,8 @@ namespace waste_management_parser.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WmObjects", x => x.Id);
+                    table.UniqueConstraint("UXC_WmObjects_Guid", x => x.Guid);
+                    table.UniqueConstraint("UXC_WmObjects_Mac", x => x.Mac);
                     table.ForeignKey(
                         name: "FK_WmObjects_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
@@ -377,6 +398,36 @@ namespace waste_management_parser.Migrations
                 name: "IX_WmRecords_TriggerWasteBinEmptying_WmObjects_WmObjectId",
                 table: "WmRecords_TriggerWasteBinEmptying_WmObjects",
                 column: "WmObjectId");
+
+            migrationBuilder.Sql(
+                "CREATE TRIGGER WmGroups_For_Update_UpdatedAt " +
+                "ON WmGroups " +
+                "FOR UPDATE " +
+                "AS BEGIN " +
+                "UPDATE WmGroups SET UpdatedAt = GETDATE() " +
+                "FROM INSERTED " +
+                "WHERE INSERTED.Id = WmGroups.Id " +
+                "END");
+
+            migrationBuilder.Sql(
+                "CREATE TRIGGER WmObjects_For_Update_UpdatedAt " +
+                "ON WmObjects " +
+                "FOR UPDATE " +
+                "AS BEGIN " +
+                "UPDATE WmObjects SET UpdatedAt = GETDATE() " +
+                "FROM INSERTED " +
+                "WHERE INSERTED.Id = WmObjects.Id " +
+                "END");
+
+            migrationBuilder.Sql(
+                "CREATE TRIGGER WmOrganizations_For_Update_UpdatedAt " +
+                "ON WmOrganizations " +
+                "FOR UPDATE " +
+                "AS BEGIN " +
+                "UPDATE WmOrganizations SET UpdatedAt = GETDATE() " +
+                "FROM INSERTED " +
+                "WHERE INSERTED.Id = WmOrganizations.Id " +
+                "END");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -398,6 +449,9 @@ namespace waste_management_parser.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "WmObjects_Registered");
 
             migrationBuilder.DropTable(
                 name: "WmRecords");
@@ -422,6 +476,15 @@ namespace waste_management_parser.Migrations
 
             migrationBuilder.DropTable(
                 name: "WmOrganizations");
+
+            migrationBuilder.Sql(
+                "DROP TRIGGER WmGroups_For_Update_UpdatedAt;");
+
+            migrationBuilder.Sql(
+                "DROP TRIGGER WmObjects_For_Update_UpdatedAt;");
+
+            migrationBuilder.Sql(
+                "DROP TRIGGER WmOrganizations_For_Update_UpdatedAt;");
         }
     }
 }

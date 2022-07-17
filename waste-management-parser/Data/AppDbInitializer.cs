@@ -150,6 +150,21 @@ namespace waste_management_parser.Data
                     context.SaveChanges();
                 }
 
+                // Objects - Registered.
+
+                if (!context.WmObjects_Registered.Any())
+                {
+                    context.WmObjects_Registered.AddRange(new List<WmObject_Registered>()
+                    {
+                        new WmObject_Registered()
+                        {
+                            Mac = Encoding.ASCII.GetBytes("defabc"),
+                            Name = "Object 4",
+                            ActivationCode = Encoding.ASCII.GetBytes("1234")
+                        }
+                    });
+                }
+
                 // Records.
                 if (!context.WmRecords.Any())
                 {
