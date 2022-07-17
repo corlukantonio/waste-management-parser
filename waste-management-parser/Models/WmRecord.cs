@@ -12,8 +12,8 @@ namespace waste_management_parser.Models
         [Required(ErrorMessage = "Data is required.")]
         public byte[]? Data { get; set; }
 
-        [Required(ErrorMessage = "Creation date is required.")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required(ErrorMessage = "Creation date is required.")]
         public DateTime? CreatedAt { get; set; }
 
         // Relationships.

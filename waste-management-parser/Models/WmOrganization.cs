@@ -19,8 +19,8 @@ namespace waste_management_parser.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 50 chars.")]
         public string? Name { get; set; }
 
-        [Required(ErrorMessage = "Creation date is required.")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required(ErrorMessage = "Creation date is required.")]
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }

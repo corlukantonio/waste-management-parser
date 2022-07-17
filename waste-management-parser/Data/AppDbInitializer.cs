@@ -112,6 +112,7 @@ namespace waste_management_parser.Data
                             Name = "Object 1",
                             Latitude = 43.370273,
                             Longitude = 17.417578,
+                            IsActivated = true,
                             OwnerId = appUser.Id,
                             WmGroupId = 1
                         },
@@ -122,6 +123,7 @@ namespace waste_management_parser.Data
                             Name = "Object 2",
                             Latitude = 44.784962,
                             Longitude = 14.447081,
+                            IsActivated = true,
                             OwnerId = appUser.Id,
                             WmGroupId = 1
                         },
@@ -132,6 +134,7 @@ namespace waste_management_parser.Data
                             Name = "Object 3",
                             Latitude = 45.080784,
                             Longitude = 13.636527,
+                            IsActivated = true,
                             OwnerId = appUser.Id,
                             WmGroupId = 1
                         },
@@ -142,27 +145,14 @@ namespace waste_management_parser.Data
                             Name = "Object 3",
                             Latitude = 45.080784,
                             Longitude = 13.636527,
+                            IsActivated = false,
+                            ActivationCode = Encoding.ASCII.GetBytes("1234"),
                             OwnerId = appUser.Id,
                             WmGroupId = 1
                         }
                     });
 
                     context.SaveChanges();
-                }
-
-                // Objects - Registered.
-
-                if (!context.WmObjects_Registered.Any())
-                {
-                    context.WmObjects_Registered.AddRange(new List<WmObject_Registered>()
-                    {
-                        new WmObject_Registered()
-                        {
-                            Mac = Encoding.ASCII.GetBytes("defabc"),
-                            Name = "Object 4",
-                            ActivationCode = Encoding.ASCII.GetBytes("1234")
-                        }
-                    });
                 }
 
                 // Records.

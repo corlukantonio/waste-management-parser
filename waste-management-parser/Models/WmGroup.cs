@@ -24,8 +24,8 @@ namespace waste_management_parser.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Normalized name must be between 3 and 50 chars.")]
         public string? NormalizedName { get; set; }
 
-        [Required(ErrorMessage = "Creation date is required.")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required(ErrorMessage = "Creation date is required.")]
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
