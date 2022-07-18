@@ -18,7 +18,7 @@ namespace waste_management_parser.Models
 
         [Display(Name = "Is password reset requested")]
         [Required(ErrorMessage = "Is password reset requested field is required.")]
-        [DefaultValue(false)]
+        [DefaultValue(0)]
         public bool IsPasswordResetRequested { get; set; }
 
         // Relationships.

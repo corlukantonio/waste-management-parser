@@ -12,6 +12,10 @@ namespace waste_management_parser.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Users.
+
+            builder.Entity<ApplicationUser>().Property(b => b.IsPasswordResetRequested).HasDefaultValue(0);
+
             // Users & Organizations.
 
             builder.Entity<ApplicationUser_WmOrganization>().HasKey(uo => new
@@ -34,6 +38,9 @@ namespace waste_management_parser.Data
             builder.Entity<WmObject>().Property(b => b.Guid).IsFixedLength();
             builder.Entity<WmObject>().HasAlternateKey(x => x.Mac).HasName("UXC_WmObjects_Mac");
             builder.Entity<WmObject>().Property(b => b.Mac).IsFixedLength();
+            builder.Entity<WmObject>().Property(b => b.Longitude).HasDefaultValue(0.0);
+            builder.Entity<WmObject>().Property(b => b.Latitude).HasDefaultValue(0.0);
+            builder.Entity<WmObject>().Property(b => b.IsActivated).HasDefaultValue(0);
             builder.Entity<WmObject>().Property(b => b.ActivationCode).IsFixedLength();
             builder.Entity<WmObject>().Property(b => b.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
