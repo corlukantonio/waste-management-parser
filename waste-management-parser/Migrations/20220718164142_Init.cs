@@ -29,6 +29,9 @@ namespace waste_management_parser.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    PictureData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsPasswordResetRequested = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -218,6 +221,8 @@ namespace waste_management_parser.Migrations
                     Guid = table.Column<byte[]>(type: "binary(36)", fixedLength: true, maxLength: 36, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NormalizedName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PictureName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    PictureData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     WmOrganizationId = table.Column<int>(type: "int", nullable: false)
@@ -243,9 +248,9 @@ namespace waste_management_parser.Migrations
                     Guid = table.Column<byte[]>(type: "binary(36)", fixedLength: true, maxLength: 36, nullable: false),
                     Mac = table.Column<byte[]>(type: "binary(6)", fixedLength: true, maxLength: 6, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    IsActivated = table.Column<bool>(type: "bit", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
+                    Longitude = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
+                    IsActivated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ActivationCode = table.Column<byte[]>(type: "binary(4)", fixedLength: true, maxLength: 4, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -266,6 +271,25 @@ namespace waste_management_parser.Migrations
                         name: "FK_WmObjects_WmGroups_WmGroupId",
                         column: x => x.WmGroupId,
                         principalTable: "WmGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WmObjects_WasteBinForEmptying",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WmObjectId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WmObjects_WasteBinForEmptying", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WmObjects_WasteBinForEmptying_WmObjects_WmObjectId",
+                        column: x => x.WmObjectId,
+                        principalTable: "WmObjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -375,6 +399,12 @@ namespace waste_management_parser.Migrations
                 column: "WmGroupId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_WmObjects_WasteBinForEmptying_WmObjectId",
+                table: "WmObjects_WasteBinForEmptying",
+                column: "WmObjectId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WmRecords_WmObjectId",
                 table: "WmRecords",
                 column: "WmObjectId");
@@ -434,6 +464,9 @@ namespace waste_management_parser.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "WmObjects_WasteBinForEmptying");
 
             migrationBuilder.DropTable(
                 name: "WmRecords");

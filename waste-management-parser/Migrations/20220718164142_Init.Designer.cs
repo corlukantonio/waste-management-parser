@@ -12,8 +12,8 @@ using waste_management_parser.Data;
 namespace waste_management_parser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220718123317_Edit_User_Group_Picture")]
-    partial class Edit_User_Group_Picture
+    [Migration("20220718164142_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,7 +180,9 @@ namespace waste_management_parser.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPasswordResetRequested")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -329,13 +331,19 @@ namespace waste_management_parser.Migrations
                         .IsFixedLength();
 
                     b.Property<bool>("IsActivated")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<double>("Latitude")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<double>("Longitude")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<byte[]>("Mac")
                         .IsRequired()
@@ -370,6 +378,25 @@ namespace waste_management_parser.Migrations
                     b.HasIndex("WmGroupId");
 
                     b.ToTable("WmObjects");
+                });
+
+            modelBuilder.Entity("waste_management_parser.Models.WmObject_WasteBinForEmptying", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("WmObjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WmObjectId")
+                        .IsUnique();
+
+                    b.ToTable("WmObjects_WasteBinForEmptying");
                 });
 
             modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
@@ -568,6 +595,17 @@ namespace waste_management_parser.Migrations
                     b.Navigation("WmGroup");
                 });
 
+            modelBuilder.Entity("waste_management_parser.Models.WmObject_WasteBinForEmptying", b =>
+                {
+                    b.HasOne("waste_management_parser.Models.WmObject", "WmObject")
+                        .WithOne("WmObject_WasteBinForEmptying")
+                        .HasForeignKey("waste_management_parser.Models.WmObject_WasteBinForEmptying", "WmObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WmObject");
+                });
+
             modelBuilder.Entity("waste_management_parser.Models.WmRecord", b =>
                 {
                     b.HasOne("waste_management_parser.Models.WmObject", "WmObject")
@@ -612,6 +650,8 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("waste_management_parser.Models.WmObject", b =>
                 {
+                    b.Navigation("WmObject_WasteBinForEmptying");
+
                     b.Navigation("WmRecords");
 
                     b.Navigation("WmRecords_TriggerWasteBinEmptying_WmObjects");

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using waste_management_parser.Data.Base;
 
@@ -26,14 +27,17 @@ namespace waste_management_parser.Models
 
         [Display(Name = "Latitude")]
         [Required(ErrorMessage = "Latitude is required.")]
+        [DefaultValue(0.0)]
         public double Latitude { get; set; }
 
         [Display(Name = "Longitude")]
         [Required(ErrorMessage = "Longitude is required.")]
+        [DefaultValue(0.0)]
         public double Longitude { get; set; }
 
         [Display(Name = "Is activated")]
         [Required(ErrorMessage = "Is activated field is required.")]
+        [DefaultValue(0)]
         public bool IsActivated { get; set; }
 
         [Display(Name = "Activation code")]

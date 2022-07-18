@@ -178,7 +178,9 @@ namespace waste_management_parser.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPasswordResetRequested")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -327,13 +329,19 @@ namespace waste_management_parser.Migrations
                         .IsFixedLength();
 
                     b.Property<bool>("IsActivated")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<double>("Latitude")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<double>("Longitude")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<byte[]>("Mac")
                         .IsRequired()
