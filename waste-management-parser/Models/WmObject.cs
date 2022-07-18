@@ -64,6 +64,10 @@ namespace waste_management_parser.Models
         [ForeignKey(nameof(WmGroupId))]
         public WmGroup? WmGroup { get; set; }
 
+        // Object - Waste bin for emptying.
+
+        public WmObject_WasteBinForEmptying? WmObject_WasteBinForEmptying { get; set; }
+
         // Record.
 
         public List<WmRecord>? WmRecords { get; set; }

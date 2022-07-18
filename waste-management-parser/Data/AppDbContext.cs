@@ -70,6 +70,8 @@ namespace waste_management_parser.Data
 
         public DbSet<WmObject> WmObjects { get; set; }
 
+        public DbSet<WmObject_WasteBinForEmptying> WmObjects_WasteBinForEmptying { get; set; }
+
         public DbSet<WmOrganization> WmOrganizations { get; set; }
 
         public DbSet<WmRecord> WmRecords { get; set; }

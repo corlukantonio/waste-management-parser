@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using waste_management_parser.Data;
 
@@ -11,9 +12,10 @@ using waste_management_parser.Data;
 namespace waste_management_parser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220718123317_Edit_User_Group_Picture")]
+    partial class Edit_User_Group_Picture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,25 +372,6 @@ namespace waste_management_parser.Migrations
                     b.ToTable("WmObjects");
                 });
 
-            modelBuilder.Entity("waste_management_parser.Models.WmObject_WasteBinForEmptying", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("WmObjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WmObjectId")
-                        .IsUnique();
-
-                    b.ToTable("WmObjects_WasteBinForEmptying");
-                });
-
             modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
                 {
                     b.Property<int>("Id")
@@ -585,17 +568,6 @@ namespace waste_management_parser.Migrations
                     b.Navigation("WmGroup");
                 });
 
-            modelBuilder.Entity("waste_management_parser.Models.WmObject_WasteBinForEmptying", b =>
-                {
-                    b.HasOne("waste_management_parser.Models.WmObject", "WmObject")
-                        .WithOne("WmObject_WasteBinForEmptying")
-                        .HasForeignKey("waste_management_parser.Models.WmObject_WasteBinForEmptying", "WmObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WmObject");
-                });
-
             modelBuilder.Entity("waste_management_parser.Models.WmRecord", b =>
                 {
                     b.HasOne("waste_management_parser.Models.WmObject", "WmObject")
@@ -640,8 +612,6 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("waste_management_parser.Models.WmObject", b =>
                 {
-                    b.Navigation("WmObject_WasteBinForEmptying");
-
                     b.Navigation("WmRecords");
 
                     b.Navigation("WmRecords_TriggerWasteBinEmptying_WmObjects");
