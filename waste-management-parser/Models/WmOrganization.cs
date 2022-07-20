@@ -27,7 +27,7 @@ namespace waste_management_parser.Models
 
         // Relationships.
 
-        public List<ApplicationUser_WmOrganization>? ApplicationUsers_WmOrganizations { get; set; }
+        public List<AspNetUser_WmOrganization>? Users_WmOrganizations { get; set; }
 
         // Group.
 

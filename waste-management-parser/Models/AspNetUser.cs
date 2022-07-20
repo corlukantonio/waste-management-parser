@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace waste_management_parser.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class AspNetUser : IdentityUser
     {
         [Display(Name = "Full name")]
         public string? FullName { get; set; }
@@ -23,7 +23,7 @@ namespace waste_management_parser.Models
 
         // Relationships.
 
-        public List<ApplicationUser_WmOrganization>? ApplicationUsers_WmOrganizations { get; set; }
+        public List<AspNetUser_WmOrganization>? Users_WmOrganizations { get; set; }
 
         // Object.
 

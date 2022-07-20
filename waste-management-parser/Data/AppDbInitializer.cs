@@ -14,7 +14,7 @@ namespace waste_management_parser.Data
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AspNetUser>>();
 
                 string adminUserEmail = "admin@wastemanagement.com";
                 string appUserEmail = "user@wastemanagement.com";
@@ -38,7 +38,7 @@ namespace waste_management_parser.Data
 
                 if (adminUser == null)
                 {
-                    var newAdminUser = new ApplicationUser()
+                    var newAdminUser = new AspNetUser()
                     {
                         FullName = "Admin User",
                         UserName = "admin-user",
@@ -52,7 +52,7 @@ namespace waste_management_parser.Data
 
                 if (appUser == null)
                 {
-                    var newAppUser = new ApplicationUser()
+                    var newAppUser = new AspNetUser()
                     {
                         FullName = "Application User",
                         UserName = "app-user",
@@ -239,13 +239,13 @@ namespace waste_management_parser.Data
                 }
 
                 // Users & Organizations.
-                if (!context.ApplicationUsers_WmOrganizations.Any())
+                if (!context.AspNetUsers_WmOrganizations.Any())
                 {
-                    context.ApplicationUsers_WmOrganizations.AddRange(new List<ApplicationUser_WmOrganization>()
+                    context.AspNetUsers_WmOrganizations.AddRange(new List<AspNetUser_WmOrganization>()
                     {
-                        new ApplicationUser_WmOrganization()
+                        new AspNetUser_WmOrganization()
                         {
-                            ApplicationUserId = appUser.Id,
+                            UserId = appUser.Id,
                             WmOrganizationId = 1
                         }
                     });

@@ -4,7 +4,7 @@ using waste_management_parser.Models;
 
 namespace waste_management_parser.Data
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    public class AppDbContext : IdentityDbContext<AspNetUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -14,17 +14,17 @@ namespace waste_management_parser.Data
         {
             // Users.
 
-            builder.Entity<ApplicationUser>().Property(b => b.IsPasswordResetRequested).HasDefaultValue(0);
+            builder.Entity<AspNetUser>().Property(b => b.IsPasswordResetRequested).HasDefaultValue(0);
 
             // Users & Organizations.
 
-            builder.Entity<ApplicationUser_WmOrganization>().HasKey(uo => new
+            builder.Entity<AspNetUser_WmOrganization>().HasKey(uo => new
             {
-                uo.ApplicationUserId,
+                uo.UserId,
                 uo.WmOrganizationId
             });
-            builder.Entity<ApplicationUser_WmOrganization>().HasOne(u => u.ApplicationUser).WithMany(uo => uo.ApplicationUsers_WmOrganizations).HasForeignKey(u => u.ApplicationUserId);
-            builder.Entity<ApplicationUser_WmOrganization>().HasOne(o => o.WmOrganization).WithMany(uo => uo.ApplicationUsers_WmOrganizations).HasForeignKey(o => o.WmOrganizationId);
+            builder.Entity<AspNetUser_WmOrganization>().HasOne(u => u.User).WithMany(uo => uo.Users_WmOrganizations).HasForeignKey(u => u.UserId);
+            builder.Entity<AspNetUser_WmOrganization>().HasOne(o => o.WmOrganization).WithMany(uo => uo.Users_WmOrganizations).HasForeignKey(o => o.WmOrganizationId);
 
             // Groups.
 
@@ -71,7 +71,7 @@ namespace waste_management_parser.Data
             base.OnModelCreating(builder);
         }
 
-        public DbSet<ApplicationUser_WmOrganization> ApplicationUsers_WmOrganizations { get; set; }
+        public DbSet<AspNetUser_WmOrganization> AspNetUsers_WmOrganizations { get; set; }
 
         public DbSet<WmGroup> WmGroups { get; set; }
 
