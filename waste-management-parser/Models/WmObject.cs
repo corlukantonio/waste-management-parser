@@ -44,6 +44,9 @@ namespace waste_management_parser.Models
         [MaxLength(4), MinLength(4)]
         public byte[]? ActivationCode { get; set; }
 
+        [Display(Name = "Settings")]
+        public byte[]? Settings { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "Creation date is required.")]
         public DateTime? CreatedAt { get; set; }
