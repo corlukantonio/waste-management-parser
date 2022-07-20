@@ -155,7 +155,7 @@ namespace waste_management_parser.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser", b =>
+            modelBuilder.Entity("waste_management_parser.Models.AspNetUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -235,19 +235,19 @@ namespace waste_management_parser.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser_WmOrganization", b =>
+            modelBuilder.Entity("waste_management_parser.Models.AspNetUser_WmOrganization", b =>
                 {
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("WmOrganizationId")
                         .HasColumnType("int");
 
-                    b.HasKey("ApplicationUserId", "WmOrganizationId");
+                    b.HasKey("UserId", "WmOrganizationId");
 
                     b.HasIndex("WmOrganizationId");
 
-                    b.ToTable("ApplicationUsers_WmOrganizations");
+                    b.ToTable("AspNetUsers_WmOrganizations");
                 });
 
             modelBuilder.Entity("waste_management_parser.Models.WmGroup", b =>
@@ -506,7 +506,7 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("waste_management_parser.Models.ApplicationUser", null)
+                    b.HasOne("waste_management_parser.Models.AspNetUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -515,7 +515,7 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("waste_management_parser.Models.ApplicationUser", null)
+                    b.HasOne("waste_management_parser.Models.AspNetUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -530,7 +530,7 @@ namespace waste_management_parser.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("waste_management_parser.Models.ApplicationUser", null)
+                    b.HasOne("waste_management_parser.Models.AspNetUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,28 +539,28 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("waste_management_parser.Models.ApplicationUser", null)
+                    b.HasOne("waste_management_parser.Models.AspNetUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser_WmOrganization", b =>
+            modelBuilder.Entity("waste_management_parser.Models.AspNetUser_WmOrganization", b =>
                 {
-                    b.HasOne("waste_management_parser.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ApplicationUsers_WmOrganizations")
-                        .HasForeignKey("ApplicationUserId")
+                    b.HasOne("waste_management_parser.Models.AspNetUser", "User")
+                        .WithMany("Users_WmOrganizations")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("waste_management_parser.Models.WmOrganization", "WmOrganization")
-                        .WithMany("ApplicationUsers_WmOrganizations")
+                        .WithMany("Users_WmOrganizations")
                         .HasForeignKey("WmOrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("User");
 
                     b.Navigation("WmOrganization");
                 });
@@ -578,7 +578,7 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("waste_management_parser.Models.WmObject", b =>
                 {
-                    b.HasOne("waste_management_parser.Models.ApplicationUser", "Owner")
+                    b.HasOne("waste_management_parser.Models.AspNetUser", "Owner")
                         .WithMany("WmObjects")
                         .HasForeignKey("OwnerId");
 
@@ -634,9 +634,9 @@ namespace waste_management_parser.Migrations
                     b.Navigation("WmRecord_TriggerWasteBinEmptying");
                 });
 
-            modelBuilder.Entity("waste_management_parser.Models.ApplicationUser", b =>
+            modelBuilder.Entity("waste_management_parser.Models.AspNetUser", b =>
                 {
-                    b.Navigation("ApplicationUsers_WmOrganizations");
+                    b.Navigation("Users_WmOrganizations");
 
                     b.Navigation("WmObjects");
                 });
@@ -657,7 +657,7 @@ namespace waste_management_parser.Migrations
 
             modelBuilder.Entity("waste_management_parser.Models.WmOrganization", b =>
                 {
-                    b.Navigation("ApplicationUsers_WmOrganizations");
+                    b.Navigation("Users_WmOrganizations");
 
                     b.Navigation("WmGroups");
                 });

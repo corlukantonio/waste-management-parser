@@ -59,7 +59,7 @@ namespace waste_management_parser.Models
         public string? OwnerId { get; set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public ApplicationUser? Owner { get; set; }
+        public AspNetUser? Owner { get; set; }
 
         // Group.
 

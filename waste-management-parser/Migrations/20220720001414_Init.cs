@@ -189,23 +189,23 @@ namespace waste_management_parser.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUsers_WmOrganizations",
+                name: "AspNetUsers_WmOrganizations",
                 columns: table => new
                 {
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     WmOrganizationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUsers_WmOrganizations", x => new { x.ApplicationUserId, x.WmOrganizationId });
+                    table.PrimaryKey("PK_AspNetUsers_WmOrganizations", x => new { x.UserId, x.WmOrganizationId });
                     table.ForeignKey(
-                        name: "FK_ApplicationUsers_WmOrganizations_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_AspNetUsers_WmOrganizations_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ApplicationUsers_WmOrganizations_WmOrganizations_WmOrganizationId",
+                        name: "FK_AspNetUsers_WmOrganizations_WmOrganizations_WmOrganizationId",
                         column: x => x.WmOrganizationId,
                         principalTable: "WmOrganizations",
                         principalColumn: "Id",
@@ -340,11 +340,6 @@ namespace waste_management_parser.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUsers_WmOrganizations_WmOrganizationId",
-                table: "ApplicationUsers_WmOrganizations",
-                column: "WmOrganizationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -382,6 +377,11 @@ namespace waste_management_parser.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_WmOrganizations_WmOrganizationId",
+                table: "AspNetUsers_WmOrganizations",
+                column: "WmOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WmGroups_WmOrganizationId",
@@ -448,9 +448,6 @@ namespace waste_management_parser.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ApplicationUsers_WmOrganizations");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -461,6 +458,9 @@ namespace waste_management_parser.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers_WmOrganizations");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
