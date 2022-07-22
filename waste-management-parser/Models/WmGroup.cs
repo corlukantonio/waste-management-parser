@@ -31,6 +31,9 @@ namespace waste_management_parser.Models
         [Display(Name = "Picture data")]
         public byte[]? PictureData { get; set; }
 
+        [Display(Name = "Settings")]
+        public byte[]? Settings { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "Creation date is required.")]
         public DateTime? CreatedAt { get; set; }
