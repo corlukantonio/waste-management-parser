@@ -11,6 +11,7 @@
     "waste_management_parser": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "Account/Login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
