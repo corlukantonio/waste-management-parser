@@ -1,14 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using waste_management_parser.Data.Services;
 
 namespace waste_management_parser.Controllers
 {
     [Authorize]
     public class OrganizationsController : Controller
     {
-        public IActionResult Index()
+        private readonly IOrganizationsService _service;
+
+        public OrganizationsController(IOrganizationsService service)
         {
-            return View();
+            _service = service;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userRole = User.FindFirstValue(ClaimTypes.Role);
+
+            var organizations = await _service.GetOrganizationsByUserIdAndRoleAsync(userId, userRole);
+
+            return View(organizations);
         }
     }
 }
