@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text;
 using waste_management_parser.Data.Base;
 using waste_management_parser.Data.Static;
 using waste_management_parser.Models;
@@ -25,6 +26,12 @@ namespace waste_management_parser.Data.Services
             }
 
             return organizations;
+        }
+
+        public async Task<WmOrganization> GetOrganizationByGuidAsync(string id)
+        {
+            var organization = _context.WmOrganizations.Include(g => g.WmGroups).FirstOrDefault(o => o.Guid == Encoding.UTF8.GetBytes(id));
+            return organization;
         }
     }
 }

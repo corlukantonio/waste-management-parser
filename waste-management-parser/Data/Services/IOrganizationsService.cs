@@ -6,5 +6,7 @@ namespace waste_management_parser.Data.Services
     public interface IOrganizationsService : IEntityBaseRepository<WmOrganization>
     {
         Task<List<WmOrganization>> GetOrganizationsByUserIdAndRoleAsync(string userId, string userRole);
+
+        Task<WmOrganization> GetOrganizationByGuidAsync(string id);
     }
 }
