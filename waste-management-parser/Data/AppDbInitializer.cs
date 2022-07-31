@@ -142,7 +142,7 @@ namespace waste_management_parser.Data
                         {
                             Guid = Encoding.ASCII.GetBytes(Guid.NewGuid().ToString()),
                             Mac = new byte[] { 172, 103, 178, 194, 150, 224 },
-                            Name = "Object 3",
+                            Name = "Object 4",
                             Latitude = 45.080784,
                             Longitude = 13.636527,
                             IsActivated = false,

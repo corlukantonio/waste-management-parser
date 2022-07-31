@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddScoped<IOrganizationsService, OrganizationsService>();
 builder.Services.AddScoped<IGroupsService, GroupsService>();
+builder.Services.AddScoped<IObjectsService, ObjectsService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

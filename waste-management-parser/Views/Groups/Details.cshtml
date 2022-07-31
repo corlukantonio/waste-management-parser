@@ -1,5 +1,30 @@
-﻿@model WmGroup
+﻿@using System.Text
+@model WmGroup
 
 @{
     ViewData["Title"] = "Details";
 }
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.WmObjects)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.WmObjects)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <a asp-controller="Objects" asp-action="Details" asp-route-id="@Encoding.UTF8.GetString(item.Guid)">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
