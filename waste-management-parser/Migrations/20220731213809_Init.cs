@@ -222,6 +222,7 @@ namespace waste_management_parser.Migrations
                     NormalizedName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PictureName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PictureData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Settings = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     WmOrganizationId = table.Column<int>(type: "int", nullable: false)
@@ -251,6 +252,7 @@ namespace waste_management_parser.Migrations
                     Longitude = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
                     IsActivated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ActivationCode = table.Column<byte[]>(type: "binary(4)", fixedLength: true, maxLength: 4, nullable: true),
+                    Settings = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),

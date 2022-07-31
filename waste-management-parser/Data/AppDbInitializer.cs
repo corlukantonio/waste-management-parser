@@ -145,10 +145,11 @@ namespace waste_management_parser.Data
                             Name = "Object 4",
                             Latitude = 45.080784,
                             Longitude = 13.636527,
-                            IsActivated = false,
+                            IsActivated = true,
                             ActivationCode = Encoding.ASCII.GetBytes("1234"),
                             OwnerId = appUser.Id,
-                            WmGroupId = 1
+                            WmGroupId = 1,
+                            Settings = new byte [] { 1, 1, 0, 0, 0, 0, 0, 0, 0x28, 0x40 }
                         }
                     });
 
