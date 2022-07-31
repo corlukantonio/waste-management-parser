@@ -12,8 +12,8 @@ using waste_management_parser.Data;
 namespace waste_management_parser.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220722012722_Add_Settings_to_WmGroups")]
-    partial class Add_Settings_to_WmGroups
+    [Migration("20220731213809_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
