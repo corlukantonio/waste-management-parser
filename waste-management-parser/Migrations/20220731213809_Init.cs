@@ -444,6 +444,26 @@ namespace waste_management_parser.Migrations
                 "FROM INSERTED " +
                 "WHERE INSERTED.Id = WmOrganizations.Id " +
                 "END");
+
+            migrationBuilder.Sql(
+                "CREATE PROCEDURE WmTriggerWasteBinEmptying " +
+                "AS " +
+                "DECLARE @rowCounter INT; " +
+                "SET @rowCounter = 0; " +
+                "SELECT @rowCounter = COUNT(*) FROM WmObjects_WasteBinForEmptying; " +
+                "IF (@rowCounter > 0) " +
+                "BEGIN " +
+                "DECLARE @tblId TABLE (Id INT); " +
+                "DECLARE @id INT; " +
+                "INSERT INTO WmRecords_TriggerWasteBinEmptying " +
+                "OUTPUT INSERTED.Id INTO @tblId " +
+                "DEFAULT VALUES; " +
+                "SELECT TOP 1 @id = Id FROM @tblId; " +
+                "INSERT INTO WmRecords_TriggerWasteBinEmptying_WmObjects " +
+                "SELECT @id, WmObjectId " +
+                "FROM WmObjects_WasteBinForEmptying; " +
+                "TRUNCATE TABLE WmObjects_WasteBinForEmptying; " +
+                "END");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -501,6 +521,9 @@ namespace waste_management_parser.Migrations
 
             migrationBuilder.Sql(
                 "DROP TRIGGER WmOrganizations_For_Update_UpdatedAt;");
+
+            migrationBuilder.Sql(
+                "DROP PROCEDURE WmTriggerWasteBinEmptying;");
         }
     }
 }
