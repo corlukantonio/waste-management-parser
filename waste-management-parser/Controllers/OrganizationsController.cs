@@ -28,6 +28,7 @@ namespace waste_management_parser.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var organization = await _service.GetOrganizationByGuidAsync(id);
+
             return View(organization);
         }
     }

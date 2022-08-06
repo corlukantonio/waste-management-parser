@@ -14,16 +14,16 @@ namespace waste_management_parser.Data.Services
             _context = context;
         }
 
+        public Task<List<WmObject>> GetObjectsByUserIdAndRoleAsync(string userId, string userRole)
+        {
+            return null;
+        }
+
         public async Task<WmObject> GetObjectByGuidAsync(string id)
         {
             var wmObject = _context.WmObjects.Include(o => o.WmRecords).FirstOrDefault(o => o.Guid == Encoding.UTF8.GetBytes(id));
 
             return wmObject;
-        }
-
-        public Task<List<WmObject>> GetObjectsByUserIdAndRoleAsync(string userId, string userRole)
-        {
-            return null;
         }
     }
 }
