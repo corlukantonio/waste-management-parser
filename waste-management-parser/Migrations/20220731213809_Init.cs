@@ -463,7 +463,8 @@ namespace waste_management_parser.Migrations
                 "SELECT @id, WmObjectId " +
                 "FROM WmObjects_WasteBinForEmptying; " +
                 "TRUNCATE TABLE WmObjects_WasteBinForEmptying; " +
-                "END");
+                "END " +
+                "RETURN @rowCounter");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

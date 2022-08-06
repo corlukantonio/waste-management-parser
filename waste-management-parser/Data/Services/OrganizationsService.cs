@@ -31,6 +31,7 @@ namespace waste_management_parser.Data.Services
         public async Task<WmOrganization> GetOrganizationByGuidAsync(string id)
         {
             var organization = _context.WmOrganizations.Include(g => g.WmGroups).FirstOrDefault(o => o.Guid == Encoding.UTF8.GetBytes(id));
+
             return organization;
         }
     }

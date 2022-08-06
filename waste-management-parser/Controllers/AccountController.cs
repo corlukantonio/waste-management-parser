@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using waste_management_parser.Data;
 using waste_management_parser.Data.Static;
 using waste_management_parser.Data.ViewModels;
 using waste_management_parser.Models;
@@ -11,13 +10,11 @@ namespace waste_management_parser.Controllers
     {
         private readonly UserManager<AspNetUser> _userManager;
         private readonly SignInManager<AspNetUser> _signInManager;
-        private readonly AppDbContext _context;
 
-        public AccountController(UserManager<AspNetUser> userManager, SignInManager<AspNetUser> signInManager, AppDbContext context)
+        public AccountController(UserManager<AspNetUser> userManager, SignInManager<AspNetUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         public IActionResult Login() => View(new LoginVM());

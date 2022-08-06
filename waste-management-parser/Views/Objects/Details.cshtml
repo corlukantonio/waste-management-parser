@@ -2,39 +2,57 @@
 @model WmObject
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Model.Name;
 }
 
-<canvas id="lineChart"></canvas>
+<div class="row">
+    <canvas id="lineChart"></canvas>
+</div>
 
 <script type="text/javascript">
-    function decodeFloat(bytes, signBits, exponentBits, fractionBits, eMin, eMax, littleEndian) {
-        var totalBits = (signBits + exponentBits + fractionBits);
+    function convertBase64ToArrayBuffer(base64) {
+        let binary_string = window.atob(base64);
+        let len = binary_string.length;
+        let bytes = new Uint8Array(len);
 
-        var binary = "";
-        for (var i = 0, l = bytes.length; i < l; i++) {
-            var bits = bytes[i].toString(2);
-            while (bits.length < 8)
-                bits = "0" + bits;
-
-            if (littleEndian)
-                binary = bits + binary;
-            else
-                binary += bits;
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
         }
 
-        var sign = (binary.charAt(0) == '1') ? -1 : 1;
-        var exponent = parseInt(binary.substr(signBits, exponentBits), 2) - eMax;
-        var significandBase = binary.substr(signBits + exponentBits, fractionBits);
-        var significandBin = '1' + significandBase;
-        var i = 0;
-        var val = 1;
-        var significand = 0;
+        return bytes;
+    }
+
+    function decodeFloat(bytes, signBits, exponentBits, fractionBits, eMin, eMax, littleEndian) {
+        let totalBits = (signBits + exponentBits + fractionBits);
+
+        let binary = "";
+
+        for (let i = 0, l = bytes.length; i < l; i++) {
+            let bits = bytes[i].toString(2);
+
+            while (bits.length < 8) {
+                bits = "0" + bits;
+            }
+
+            if (littleEndian) {
+                binary = bits + binary;
+            } else {
+                binary += bits;
+            }
+        }
+
+        let sign = (binary.charAt(0) == '1') ? -1 : 1;
+        let exponent = parseInt(binary.substr(signBits, exponentBits), 2) - eMax;
+        let significandBase = binary.substr(signBits + exponentBits, fractionBits);
+        let significandBin = '1' + significandBase;
+        let i = 0;
+        let val = 1;
+        let significand = 0;
 
         if (exponent == -eMax) {
-            if (significandBase.indexOf('1') == -1)
+            if (significandBase.indexOf('1') == -1) {
                 return 0;
-            else {
+            } else {
                 exponent = eMin;
                 significandBin = '0' + significandBase;
             }
@@ -49,36 +67,17 @@
         return sign * significand * Math.pow(2, exponent);
     }
 
-    function readInt(array) {
-        var value = 0;
-        for (var i = 0; i < array.length; i++) {
-            value = (value * 256) + array[i];
-        }
-        return value;
-    }
-
-
-    function _base64ToArrayBuffer(base64) {
-        var binary_string = window.atob(base64);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) {
-            bytes[i] = binary_string.charCodeAt(i);
-        }
-        return bytes;
-    }
-
     let distance = [];
     let humidity = [];
     let temperatureCelsius = [];
+    let wmRecordsLabel = [];
 
+    let wmRecords = JSON.parse('@Html.Raw(Json.Serialize(@Model.WmRecords.Select(r => new { r.Data, r.CreatedAt }).ToArray()))');
 
-    var arr = JSON.parse('@Html.Raw(Json.Serialize(@Model.WmRecords.Select(r => new { r.Data, r.CreatedAt }).ToArray()))');
-
-    for (let i = 30; i < arr.length; i++) {
+    for (let i = 0; i < wmRecords.length; i++) {
         let j = 14;
 
-        let byteArr = _base64ToArrayBuffer(arr[i].data);
+        let byteArr = convertBase64ToArrayBuffer(wmRecords[i].data);
         let numOfValues = byteArr[j++];
 
         for (let k = 0; k < numOfValues; k++) {
@@ -130,40 +129,54 @@
         }
     }
 
-let createdArr = [];
-
-    for (let i = 30; i < arr.length; i++) {
-        createdArr.push(arr[i].createdAt)
+    for (let i = 0; i < wmRecords.length; i++) {
+        wmRecordsLabel.push(wmRecords[i].createdAt)
     }
 
-    //line
-    var ctxL = document.getElementById("lineChart").getContext('2d');
-    var myLineChart = new Chart(ctxL, {
+    /**
+     * Line chart.
+     */
+
+    let ctxL = document.getElementById("lineChart").getContext('2d');
+
+    let lineChart = new Chart(ctxL, {
         type: 'line',
         data: {
-            labels: createdArr,
-            datasets: [{
-                label: "My First dataset",
-                data: temperatureCelsius,
-                backgroundColor: [
-                    'rgba(105, 0, 132, .2)',
-                ],
-                borderColor: [
-                    'rgba(200, 99, 132, .7)',
-                ],
-                borderWidth: 2
-            },
-            {
-                label: "My Second dataset",
-                data: humidity,
-                backgroundColor: [
-                    'rgba(0, 137, 132, .2)',
-                ],
-                borderColor: [
-                    'rgba(0, 10, 130, .7)',
-                ],
-                borderWidth: 2
-            }
+            labels: wmRecordsLabel,
+            datasets: [
+                {
+                    label: "Distance",
+                    data: distance,
+                    backgroundColor: [
+                        'rgba(100, 181, 246, .2)',
+                    ],
+                    borderColor: [
+                        'rgba(30, 136, 229, .7)',
+                    ],
+                    borderWidth: 2
+                },
+                {
+                    label: "Humidity",
+                    data: humidity,
+                    backgroundColor: [
+                        'rgba(129, 199, 132, .2)',
+                    ],
+                    borderColor: [
+                        'rgba(67, 160, 71, .7)',
+                    ],
+                    borderWidth: 2
+                },
+                {
+                    label: "Temperature (°C)",
+                    data: temperatureCelsius,
+                    backgroundColor: [
+                        'rgba(229, 115, 115, .2)',
+                    ],
+                    borderColor: [
+                        'rgba(229, 57, 53, .7)',
+                    ],
+                    borderWidth: 2
+                }
             ]
         },
         options: {

@@ -22,6 +22,7 @@ namespace waste_management_parser.Data.Services
         public async Task<WmGroup> GetGroupByGuidAsync(string id)
         {
             var group = _context.WmGroups.Include(g => g.WmObjects).FirstOrDefault(o => o.Guid == Encoding.UTF8.GetBytes(id));
+
             return group;
         }
     }
