@@ -4,6 +4,8 @@
 
 ## Description
 
+**Waste Management Parser** is a web application that processes and visualizes data from IoT devices.
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/32845849/184077263-d49a5d45-20a9-4ba7-a0cf-7fc22680585c.png" alt="waste-management-cloud-scheme-v3">
 </p>
